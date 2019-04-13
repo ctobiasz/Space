@@ -4,7 +4,8 @@ express           = require("express"),
 app               = express();
 
 // APP CONFIG
-mongoose.connect("mongodb://localhost/space_blog_app");
+
+mongoose.connect("mongodb://localhost:27017/space_blog_app", {useNewUrlParser: true});
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -23,7 +24,7 @@ var Blog = mongoose.model("Blog", blogSchema);
 app.get("/", (req, res) => {
   res.redirect("/blogs");
 })
-
+// INDEX ROUTE
 app.get("/blogs", (req, res) => {
   Blog.find({}, function(err, blogs){
     if(err){
@@ -32,6 +33,11 @@ app.get("/blogs", (req, res) => {
       res.render("index", {blogs: blogs});
     }
 });
+});
+
+// NEW ROUTE
+app.get("/blogs/new", (req, res) => {
+  res.render("new");
 });
 
 app.listen(process.env.port, process.env.IP, function(){
