@@ -6,9 +6,9 @@ app               = express();
 // APP CONFIG
 
 mongoose.connect("mongodb://localhost:27017/space_blog_app", {useNewUrlParser: true});
+app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended: true}));
 
 // MONGOOSE/MODEL CONFIG
 var blogSchema =new mongoose.Schema({
@@ -40,10 +40,22 @@ app.get("/blogs/new", (req, res) => {
   res.render("new");
 });
 
+// CREATE ROUTE
+app.post("/blogs", (req, res) => {
+  //create blog
+  Blog.create(req.body.blog, function(err, newBlog){
+    if(err){
+      res.render("new");
+    } else {
+      res.redirect("/blogs")
+    }
+  });
+});
+
 app.listen(process.env.port, process.env.IP, function(){
   console.log("SERVER IS RUNNING");
 });
 
 app.listen(3000,  () => {
-console.log("Express server listening on port 1233");
+console.log("Express server listening on port 3000");
 });
