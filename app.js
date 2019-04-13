@@ -44,6 +44,6 @@ app.listen(process.env.port, process.env.IP, function(){
   console.log("SERVER IS RUNNING");
 });
 
-app.listen(1233,  () => {
+app.listen(3000,  () => {
 console.log("Express server listening on port 1233");
 });
